@@ -28,9 +28,12 @@ const circleStyle = (props) => {
 
 const onPressHandler = (props, setVisibility) => {
     clearTimeout(timer)
-    setVisibility(false)
     Haptics.selectionAsync().then(r => {
     }).catch()
+    if (!props.style.color) {
+        gameOver(props)
+    }
+    setVisibility(false)
     calculateScore(props)
     setTimeout(() => resetCircles(props, setVisibility), props.vars.circleTimeout)
 }
@@ -43,7 +46,7 @@ const resetCircles = (props, setVisibility) => {
     props.funcs.setCircleColor(randoms.circleColor)
     setVisibility(true)
 
-    timer = setTimeout(() => resetCircles(props, setVisibility), props.vars.circleTimeout)
+    timer = setTimeout(() => gameOver(props), props.vars.circleTimeout)
 }
 
 export const randomizePosition = (circleRadius, redRatio, height, width) => {
@@ -56,7 +59,6 @@ export const randomizePosition = (circleRadius, redRatio, height, width) => {
 }
 
 const calculateScore = (props) => {
-    console.log(props.vars.count)
     if (props.vars.count % 10 === 0) {
         // reset count
         props.funcs.setCount(0)
@@ -77,3 +79,6 @@ const calculateScore = (props) => {
     props.funcs.setCount(props.vars.count + 1)
 }
 
+const gameOver = (props) => {
+    props.vars.navigation.navigate('Home')
+}

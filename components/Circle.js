@@ -1,6 +1,9 @@
 import React, {useState} from "react";
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, ImageBackground} from 'react-native';
 import * as Haptics from 'expo-haptics'
+import {_retrieveData, _storeData, currentScoreKey, highScoreKey, newAppKey} from "./Utils";
+import goldCoin from '../assets/icon/gold.png'
+import silverCoin from '../assets/icon/silver.png'
 
 let timer;
 
@@ -10,7 +13,12 @@ export const Circle = (props) => {
         return null
     }
     return (
-        <TouchableOpacity style={circleStyle(props)} onPress={() => onPressHandler(props, setVisibility)}/>
+        <TouchableOpacity style={circleStyle(props)} onPress={() => onPressHandler(props, setVisibility)}>
+            <ImageBackground
+                source={coinSource(props)}
+                style={coinStyle(props)}
+            />
+        </TouchableOpacity>
     )
 }
 
@@ -19,23 +27,36 @@ const circleStyle = (props) => {
         width: props.style.size,
         height: props.style.size,
         borderRadius: props.style.size / 2,
-        backgroundColor: props.style.color ? 'green' : 'red',
-
         left: props.style.left,
         top: props.style.top
     }
 }
 
+const coinStyle = (props) => {
+    return {
+        width: props.style.size,
+        height: props.style.size
+    }
+}
+
+const coinSource = (props) => {
+    return props.style.color ? goldCoin : silverCoin
+}
+
 const onPressHandler = (props, setVisibility) => {
+    if (!props.vars.enableCoins) {
+        return true
+    }
     clearTimeout(timer)
     Haptics.selectionAsync().then(r => {
     }).catch()
     if (!props.style.color) {
-        gameOver(props)
+        gameOver(props, false)
+        return true
     }
     setVisibility(false)
     calculateScore(props)
-    setTimeout(() => resetCircles(props, setVisibility), props.vars.circleTimeout)
+    resetCircles(props, setVisibility)
 }
 
 const resetCircles = (props, setVisibility) => {
@@ -46,7 +67,15 @@ const resetCircles = (props, setVisibility) => {
     props.funcs.setCircleColor(randoms.circleColor)
     setVisibility(true)
 
-    timer = setTimeout(() => gameOver(props), props.vars.circleTimeout)
+    timer = setTimeout(() => {
+            if (randoms.circleColor) {
+                gameOver(props, true)
+            } else {
+                resetCircles(props, setVisibility)
+            }
+            return true
+        },
+        props.vars.circleTimeout)
 }
 
 export const randomizePosition = (circleRadius, redRatio, height, width) => {
@@ -73,12 +102,25 @@ const calculateScore = (props) => {
         }
 
         // increase score per click
-        props.funcs.setScorePerClick(props.vars.scorePerClick * 1.1)
+        props.funcs.setScorePerClick(props.vars.scorePerClick * 1.1 | 0)
     }
     props.funcs.setScore(props.vars.score + props.vars.scorePerClick)
     props.funcs.setCount(props.vars.count + 1)
 }
 
-const gameOver = (props) => {
-    props.vars.navigation.navigate('Home')
+const gameOver = (props, update) => {
+    props.funcs.setEnableCoins(false)
+    let currentScore = props.vars.score
+    if (update) {
+        currentScore += props.vars.scorePerClick
+    }
+    _retrieveData(highScoreKey).then(r => {
+        if (currentScore > r) {
+            _storeData(highScoreKey, currentScore).then(s => {})
+        }
+        _storeData(currentScoreKey, currentScore).then(s => {
+            _storeData(newAppKey, "false").then(s => {})
+            props.vars.navigation.replace('Home')
+        })
+    })
 }

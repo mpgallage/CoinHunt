@@ -1,8 +1,8 @@
 import {StatusBar} from 'expo-status-bar';
-import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, SafeAreaView, Dimensions, Text} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Dimensions, Text, SafeAreaView} from 'react-native';
 import {Circle, randomizePosition} from './Circle'
-import {Alert, BackHandler} from "react-native-web";
+import { useFonts } from 'expo-font';
 
 export default function Game({navigation}) {
 
@@ -23,35 +23,18 @@ export default function Game({navigation}) {
     const [leftOrRight, setLeftOrRight] = useState(randoms.leftOrRight);
     const [circleColor, setCircleColor] = useState(true);
 
-    useEffect(() => {
-        const backAction = () => {
-            Alert.alert("Hold on!", "Are you sure you want to go back?", [
-                {
-                    text: "Cancel",
-                    onPress: () => null,
-                    style: "cancel"
-                },
-                {text: "YES", onPress: () => BackHandler.exitApp()}
-            ]);
-            return true;
-        };
+    const [enableCoins, setEnableCoins] = useState(true);
 
-        BackHandler.addEventListener(
-            "hardwareBackPress",
-            backAction
-        );
-
-        return () => BackHandler.removeEventListener(
-            "hardwareBackPress",
-            backAction
-        );
-    }, []);
+    let [fontsLoaded] = useFonts({
+        'Halo': require('../assets/fonts/Halo.ttf'),
+    });
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar hidden={true}/>
             <View style={styles.scorecard}>
-                <Text>Score : {Number(score.toFixed(0))}</Text>
+                <Text style={{fontFamily: 'Halo', fontSize: 30, color: 'blue'}}>Score  </Text>
+                <Text style={{fontFamily: 'Halo', fontSize: 30}}>{score}</Text>
             </View>
             <View style={styles.game}>
                 <View style={styles.left}>
@@ -67,7 +50,8 @@ export default function Game({navigation}) {
                             score: score,
                             count: count,
                             scorePerClick,
-                            navigation: navigation
+                            navigation: navigation,
+                            enableCoins: enableCoins
                         }}
                         funcs={{
                             setTopMargin: setTopMargin,
@@ -79,7 +63,8 @@ export default function Game({navigation}) {
                             setCircleTimeout: setCircleTimeout,
                             setScore: setScore,
                             setCount: setCount,
-                            setScorePerClick: setScorePerClick
+                            setScorePerClick: setScorePerClick,
+                            setEnableCoins: setEnableCoins
                         }}/>
                 </View>
                 <View style={styles.right}>
@@ -95,7 +80,8 @@ export default function Game({navigation}) {
                             score: score,
                             count: count,
                             scorePerClick,
-                            navigation: navigation
+                            navigation: navigation,
+                            enableCoins: enableCoins
                         }}
                         funcs={{
                             setTopMargin: setTopMargin,
@@ -107,7 +93,8 @@ export default function Game({navigation}) {
                             setCircleTimeout: setCircleTimeout,
                             setScore: setScore,
                             setCount: setCount,
-                            setScorePerClick: setScorePerClick
+                            setScorePerClick: setScorePerClick,
+                            setEnableCoins: setEnableCoins
                         }}/>
                 </View>
             </View>
@@ -124,6 +111,8 @@ const styles = StyleSheet.create({
     scorecard: {
         height: '5%',
         alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     game: {
         height: '95%',

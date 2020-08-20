@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {TouchableOpacity, ImageBackground} from 'react-native';
 import * as Haptics from 'expo-haptics'
-import {_retrieveData, _storeData, currentScoreKey, highScoreKey, newAppKey} from "./Utils";
+import {_retrieveData, _storeData, currentScoreKey, highScoreKey, missedCoin, missedCoinKey, newAppKey} from "./Utils";
 import goldCoin from '../assets/icon/gold.png'
 import silverCoin from '../assets/icon/silver.png'
 
@@ -28,7 +28,11 @@ const circleStyle = (props) => {
         height: props.style.size,
         borderRadius: props.style.size / 2,
         left: props.style.left,
-        top: props.style.top
+        top: props.style.top,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5
     }
 }
 
@@ -94,7 +98,7 @@ const calculateScore = (props) => {
 
         // adjust timeout, circle size and red ratio
         props.funcs.setCircleTimeout(props.vars.circleTimeout * 0.9)
-        props.funcs.setCircleRadius(props.vars.circleRadius * 0.9)
+        props.funcs.setCircleRadius(props.vars.circleRadius * 0.95)
 
         // max red ratio is 0.3
         if (props.vars.redRatio < 0.3) {
@@ -108,10 +112,10 @@ const calculateScore = (props) => {
     props.funcs.setCount(props.vars.count + 1)
 }
 
-const gameOver = (props, update) => {
+const gameOver = (props, missedCoin) => {
     props.funcs.setEnableCoins(false)
     let currentScore = props.vars.score
-    if (update) {
+    if (missedCoin) {
         currentScore += props.vars.scorePerClick
     }
     _retrieveData(highScoreKey).then(r => {
@@ -120,6 +124,7 @@ const gameOver = (props, update) => {
         }
         _storeData(currentScoreKey, currentScore).then(s => {
             _storeData(newAppKey, "false").then(s => {})
+            _storeData(missedCoinKey, missedCoin).then(s => {})
             props.vars.navigation.replace('Home')
         })
     })

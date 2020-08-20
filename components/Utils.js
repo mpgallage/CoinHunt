@@ -4,6 +4,7 @@ import {AsyncStorage} from 'react-native';
 export let highScoreKey = 'highScoreKey';
 export let currentScoreKey = 'currentScoreKey';
 export let newAppKey = 'newAppKey';
+export let missedCoinKey = 'missedCoinKey';
 
 
 export const _storeData = async (key, value) => {

@@ -1,8 +1,8 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useState} from 'react';
-import {StyleSheet, View, Dimensions, Text, SafeAreaView} from 'react-native';
+import {StyleSheet, View, Dimensions, Text, SafeAreaView, ImageBackground} from 'react-native';
 import {Circle, randomizePosition} from './Circle'
-import { useFonts } from 'expo-font';
+import frame from './../assets/icon/frame.png'
 
 export default function Game({navigation}) {
 
@@ -25,16 +25,15 @@ export default function Game({navigation}) {
 
     const [enableCoins, setEnableCoins] = useState(true);
 
-    let [fontsLoaded] = useFonts({
-        'Halo': require('../assets/fonts/Halo.ttf'),
-    });
-
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar hidden={true}/>
             <View style={styles.scorecard}>
-                <Text style={{fontFamily: 'Halo', fontSize: 30, color: 'blue'}}>Score  </Text>
-                <Text style={{fontFamily: 'Halo', fontSize: 30}}>{score}</Text>
+                <ImageBackground source={frame} style={{width: 50, height: 20, flexDirection: 'row'}}>
+                    <View style={{flex: 1, alignItems: 'center'}}>
+                        <Text style={{fontSize: 12, fontWeight: 'bold', fontFamily: 'Roboto', color: '#fff'}}>{score}</Text>
+                    </View>
+                </ImageBackground>
             </View>
             <View style={styles.game}>
                 <View style={styles.left}>
@@ -105,13 +104,12 @@ export default function Game({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'dodgerblue',
+        backgroundColor: '#207b9a',
         flexDirection: 'column'
     },
     scorecard: {
         height: '5%',
         alignItems: 'center',
-        flexDirection: 'row',
         justifyContent: 'center'
     },
     game: {

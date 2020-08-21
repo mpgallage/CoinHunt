@@ -1,13 +1,23 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useState} from 'react';
 import {StyleSheet, View, SafeAreaView, Text, ImageBackground, TouchableOpacity} from 'react-native';
+import * as Haptics from 'expo-haptics'
 import Game from "./Game";
-import {_retrieveData, currentScoreKey, highScoreKey, missedCoinKey, newAppKey} from "./Utils";
+import {
+    _retrieveData,
+    currentScoreKey,
+    highScoreKey,
+    missedCoinKey,
+    missedCoinMessage,
+    newAppKey, paths,
+    silverCoinMessage
+} from "./Utils";
 import scorecard from './../assets/icon/scorecard.png'
 import newGame from './../assets/icon/new_game.png'
 import play from './../assets/icon/play.png'
 import replay from './../assets/icon/replay.png'
 import frame from './../assets/icon/frame.png'
+import {Audio} from "expo-av";
 
 export default function Home({navigation}) {
 
@@ -32,7 +42,14 @@ export default function Home({navigation}) {
         setMissedCoin(r);
     })
 
-    let gameOverMessage = missedCoin === 'true' ? 'You missed a gold coin!' : 'You picked a silver coin!'
+    const clickSound = new Audio.Sound();
+    try {
+        clickSound.loadAsync(paths.clickSound).catch(e => console.log('error: ' + e));
+    } catch (error) {
+        console.log(error);
+    }
+
+    let gameOverMessage = missedCoin === 'true' ? missedCoinMessage : silverCoinMessage
 
     if (newApp === 'true') {
         return (
@@ -48,18 +65,22 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: 'Roboto',
+                                fontFamily: 'monospace',
                                 color: '#ffbf42'
                             }}>{highScore ? highScore : 0}</Text>
                         </View>
                         <View style={{width: 180, alignItems: 'center', justifyContent: 'center'}}>
-                            <TouchableOpacity onPress={() => navigation.replace('Game')}>
+                            <TouchableOpacity onPress={() => {
+                                Haptics.selectionAsync().catch()
+                                clickSound.playAsync().catch(e => console.log('error: ' + e));
+                                navigation.replace('Game')
+                            }}>
                                 <ImageBackground source={play} style={{width: 100, height: 100,}}/>
                             </TouchableOpacity>
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: 'Roboto',
+                                fontFamily: 'monospace',
                                 color: '#699f4c'
                             }}>Play</Text>
                         </View>
@@ -80,13 +101,13 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 30,
                                 fontWeight: 'bold',
-                                fontFamily: 'Roboto',
+                                fontFamily: 'monospace',
                                 color: '#ffbf42'
                             }}>Game Over</Text>
                             <Text style={{
-                                fontSize: 15,
+                                fontSize: 12,
                                 fontWeight: 'bold',
-                                fontFamily: 'Roboto',
+                                fontFamily: 'monospace',
                                 color: '#fff'
                             }}>{gameOverMessage}</Text>
                         </View>
@@ -95,7 +116,7 @@ export default function Home({navigation}) {
                                 <Text style={{
                                     fontSize: 45,
                                     fontWeight: 'bold',
-                                    fontFamily: 'Roboto',
+                                    fontFamily: 'monospace',
                                     color: '#fff',
                                     bottom: 3
                                 }}>{currentScore}</Text>
@@ -108,18 +129,22 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: 'Roboto',
+                                fontFamily: 'monospace',
                                 color: '#ffbf42'
                             }}>{highScore ? highScore : 0}</Text>
                         </View>
                         <View style={{width: 180, alignItems: 'center', justifyContent: 'center'}}>
-                            <TouchableOpacity onPress={() => navigation.replace('Game')}>
+                            <TouchableOpacity onPress={() => {
+                                Haptics.selectionAsync().catch()
+                                clickSound.playAsync().catch(e => console.log('error: ' + e));
+                                navigation.replace('Game')
+                            }}>
                                 <ImageBackground source={replay} style={{width: 100, height: 100}}/>
                             </TouchableOpacity>
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: 'Roboto',
+                                fontFamily: 'monospace',
                                 color: '#2899c0'
                             }}>Play Again</Text>
                         </View>

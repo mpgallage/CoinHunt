@@ -11,6 +11,7 @@ import play from './../assets/icon/play.png'
 import replay from './../assets/icon/replay.png'
 import frame from './../assets/icon/frame.png'
 import {Audio} from "expo-av";
+import {AdMobBanner, AdMobInterstitial} from "expo-ads-admob";
 
 export default function Home({navigation}) {
 
@@ -18,6 +19,22 @@ export default function Home({navigation}) {
     const [currentScore, setCurrentScore] = useState(0);
     const [newApp, setNewApp] = useState('true');
     const [missedCoin, setMissedCoin] = useState('true');
+
+    if (Math.floor(Math.random() * 10) < 3) {
+        AdMobInterstitial.setAdUnitID(Constants.AdMobAdUnits.InterstitialAd).then(() => {
+            AdMobInterstitial.requestAdAsync({servePersonalizedAds: true}).then(() => {
+                AdMobInterstitial.showAdAsync().then(() => {
+                    return true;
+                }).catch(e => {
+                    return true;
+                });
+            }).catch(e => {
+                return true;
+            });
+        }).catch(e => {
+            return true;
+        });
+    }
 
     _retrieveData(Constants.HighScoreKey).then(r => {
         setHighScore(r);
@@ -42,7 +59,7 @@ export default function Home({navigation}) {
         console.log(error);
     }
 
-    let gameOverMessage = missedCoin === 'true' ? Constants.MissedCoinMessage : Constants.SilverCoinMessage
+    let gameOverMessage = missedCoin === 'true' ? Constants.MissedCoinMessage : Constants.SilverCoinMessage;
 
     if (newApp === 'true') {
         return (
@@ -79,6 +96,8 @@ export default function Home({navigation}) {
                         </View>
                     </View>
                 </ImageBackground>
+                <AdMobBanner style={{top: 30}} bannerSize='smartBannerPortrait' adUnitID={Constants.AdMobAdUnits.BannerAd}
+                             servePersonalizedAds onDidFailToReceiveAdWithError={() => {}}/>
             </SafeAreaView>
         )
     } else {
@@ -153,6 +172,8 @@ export default function Home({navigation}) {
                         </View>
                     </View>
                 </ImageBackground>
+                <AdMobBanner style={{top: 20}} bannerSize='smartBannerPortrait' adUnitID={Constants.AdMobAdUnits.BannerAd}
+                             servePersonalizedAds onDidFailToReceiveAdWithError={() => {}}/>
             </View>
         )
     }

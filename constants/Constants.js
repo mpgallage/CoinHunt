@@ -20,6 +20,17 @@ export default {
         appId: "1:1006570618192:web:ad9b3a5f83afda288e8055",
         measurementId: "G-3X7DZF4411"
     },
+    AdMobAdUnits: {
+        BannerAd: Platform.OS === 'android' ? 'ca-app-pub-2646007847466111/1038789979' : 'ca-app-pub-2646007847466111/5852132951',
+        InterstitialAd: Platform.OS === 'android' ? 'ca-app-pub-2646007847466111/2064931188' : 'ca-app-pub-2646007847466111/3549403244',
+        RewardAd: Platform.OS === 'android' ? 'ca-app-pub-2646007847466111/9831740566' : 'ca-app-pub-2646007847466111/5237889437'
+
+        //Tests
+/*        BannerAd: 'ca-app-pub-3940256099942544/6300978111',
+        InterstitialAd: 'ca-app-pub-3940256099942544/8691691433',
+        RewardAd: 'ca-app-pub-3940256099942544/5224354917'*/
+
+    },
     HighScoreKey: 'highScoreKey',
     CurrentScoreKey: 'currentScoreKey',
     NewAppKey: 'newAppKey',

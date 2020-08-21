@@ -11,7 +11,7 @@ let timer;
 export const Circle = (props) => {
     const [visibility, setVisibility] = useState(true);
     if (!visibility || props.vars.leftOrRight) {
-        return null
+        return null;
     }
     return (
         <TouchableOpacity style={circleStyle(props)} onPress={() => onPressHandler(props, setVisibility)}>
@@ -45,7 +45,7 @@ const coinStyle = (props) => {
 }
 
 const coinSource = (props) => {
-    return props.style.isGreenCircle ? goldCoin : silverCoin
+    return props.style.isGreenCircle ? goldCoin : silverCoin;
 }
 
 const onPressHandler = (props, setVisibility) => {
@@ -57,34 +57,34 @@ const onPressHandler = (props, setVisibility) => {
     Haptics.selectionAsync().catch()
     if (!props.style.isGreenCircle) {
         props.sounds.silverSound.playAsync().catch(e => console.log('error: ' + e));
-        gameOver(props, false)
-        return true
+        gameOver(props, false);
+        return true;
     } else {
         props.sounds.goldSound.playAsync().catch(e => console.log('error: ' + e));
     }
-    setVisibility(false)
-    calculateScore(props)
-    resetCircles(props, setVisibility)
+    setVisibility(false);
+    calculateScore(props);
+    resetCircles(props, setVisibility);
 }
 
 const resetCircles = (props, setVisibility) => {
-    const randoms = randomizePosition(props.vars.circleRadius, props.vars.redRatio, props.vars.height, props.vars.width)
-    props.funcs.setTopMargin(randoms.topMargin)
-    props.funcs.setLeftMargin(randoms.leftMargin)
-    props.funcs.setLeftOrRight(randoms.leftOrRight)
-    props.funcs.setIsGreenCircle(randoms.isGreenCircle)
-    setVisibility(true)
+    const randoms = randomizePosition(props.vars.circleRadius, props.vars.redRatio, props.vars.height, props.vars.width);
+    props.funcs.setTopMargin(randoms.topMargin);
+    props.funcs.setLeftMargin(randoms.leftMargin);
+    props.funcs.setLeftOrRight(randoms.leftOrRight);
+    props.funcs.setIsGreenCircle(randoms.isGreenCircle);
+    setVisibility(true);
 
     timer = setTimeout(() => {
             if (randoms.isGreenCircle) {
                 props.sounds.missedSound.playAsync().catch(e => console.log('error: ' + e));
-                gameOver(props, true)
+                gameOver(props, true);
             } else {
-                resetCircles(props, setVisibility)
+                resetCircles(props, setVisibility);
             }
-            return true
+            return true;
         },
-        props.vars.circleTimeout)
+        props.vars.circleTimeout);
 }
 
 export const randomizePosition = (circleRadius, redRatio, height, width) => {
@@ -99,42 +99,39 @@ export const randomizePosition = (circleRadius, redRatio, height, width) => {
 const calculateScore = (props) => {
     if (props.vars.count % 10 === 0) {
         // reset count
-        props.funcs.setCount(0)
+        props.funcs.setCount(0);
 
         // adjust timeout, circle size and red ratio
-        props.funcs.setCircleTimeout(props.vars.circleTimeout * 0.9)
-        props.funcs.setCircleRadius(props.vars.circleRadius * 0.95)
+        props.funcs.setCircleTimeout(props.vars.circleTimeout * 0.9);
+        props.funcs.setCircleRadius(props.vars.circleRadius * 0.95);
 
         // max red ratio is 0.3
         if (props.vars.redRatio < 0.3) {
-            props.funcs.setRedRatio(props.vars.redRatio * 1.1)
+            props.funcs.setRedRatio(props.vars.redRatio * 1.1);
         }
 
         // increase score per click
-        props.funcs.setScorePerClick(props.vars.scorePerClick * 1.1 | 0)
+        props.funcs.setScorePerClick(props.vars.scorePerClick * 1.1 | 0);
     }
-    props.funcs.setScore(props.vars.score + props.vars.scorePerClick)
-    props.funcs.setCount(props.vars.count + 1)
+    props.funcs.setScore(props.vars.score + props.vars.scorePerClick);
+    props.funcs.setCount(props.vars.count + 1);
 }
 
 const gameOver = (props, missedCoin) => {
-    props.funcs.setEnableCoins(false)
-    let currentScore = props.vars.score
+    props.funcs.setEnableCoins(false);
+    let currentScore = props.vars.score;
     if (missedCoin) {
-        currentScore += props.vars.scorePerClick
+        currentScore += props.vars.scorePerClick;
     }
 
     _retrieveData(Constants.HighScoreKey).then(r => {
         if (currentScore > r) {
-            _storeData(Constants.HighScoreKey, currentScore).then(s => {
-            })
+            _storeData(Constants.HighScoreKey, currentScore).then(s => {})
         }
         _storeData(Constants.CurrentScoreKey, currentScore).then(s => {
-            _storeData(Constants.NewAppKey, "false").then(s => {
-            })
-            _storeData(Constants.MissedCoinKey, missedCoin).then(s => {
-            })
-            props.vars.navigation.replace('Home')
+            _storeData(Constants.NewAppKey, "false").then(s => {})
+            _storeData(Constants.MissedCoinKey, missedCoin).then(s => {})
+            props.vars.navigation.replace('Home');
         })
     })
 }

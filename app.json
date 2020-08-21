@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "StressPress",
-    "slug": "StressPress",
+    "name": "Coin Hunt",
+    "slug": "expo.io/@malaka.gallage/StressPress",
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#207b9a"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -16,12 +16,25 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
-    },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Simple and easy game developed for fun. "
+    "description": "Simple and easy game developed for fun. ",
+
+    "android": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-2646007847466111~8451743112"
+      },
+      "package": "com.malakagallage.coinhunt",
+      "versionCode": 1
+    },
+    "ios": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-2646007847466111~5825579775"
+      },
+      "supportsTablet": true,
+      "bundleIdentifier": "com.malakagallage.coinhunt",
+      "buildNumber": "1.0.0"
+    }
   }
 }

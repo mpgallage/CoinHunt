@@ -72,7 +72,7 @@ export default function Game({navigation}) {
     }
 
     let oppositeVars = clone(vars);
-    oppositeVars.leftOrRight = !vars.leftOrRight
+    oppositeVars.leftOrRight = !vars.leftOrRight;
 
     // block back button during game
     useEffect(() => {

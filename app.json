@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Coin Hunt",
-    "slug": "expo.io/@malaka.gallage/StressPress",
+    "slug": "StressPress",
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
@@ -20,7 +20,6 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "Simple and easy game developed for fun. ",
-
     "android": {
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-2646007847466111~8451743112"

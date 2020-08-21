@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "StressPress",
-    "slug": "StressPress",
+    "name": "Coin Hunt",
+    "slug": "CoinHunt",
     "version": "1.0.0",
     "orientation": "landscape",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#207b9a"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,6 +22,17 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "Simple and easy game developed for fun. "
+    "description": "Simple and easy game developed for fun. ",
+
+    "android": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-2646007847466111~8451743112"
+      }
+    },
+    "ios": {
+      "config": {
+        "googleMobileAdsAppId": "ca-app-pub-2646007847466111~5825579775"
+      }
+    }
   }
 }

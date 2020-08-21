@@ -65,7 +65,7 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: 'monospace',
+                                fontFamily: appSettings.fontFamily,
                                 color: '#ffbf42'
                             }}>{highScore ? highScore : 0}</Text>
                         </View>
@@ -80,7 +80,7 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: 'monospace',
+                                fontFamily: appSettings.fontFamily,
                                 color: '#699f4c'
                             }}>Play</Text>
                         </View>
@@ -101,13 +101,13 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 30,
                                 fontWeight: 'bold',
-                                fontFamily: 'monospace',
+                                fontFamily: appSettings.fontFamily,
                                 color: '#ffbf42'
                             }}>Game Over</Text>
                             <Text style={{
                                 fontSize: 12,
                                 fontWeight: 'bold',
-                                fontFamily: 'monospace',
+                                fontFamily: appSettings.fontFamily,
                                 color: '#fff'
                             }}>{gameOverMessage}</Text>
                         </View>
@@ -116,7 +116,7 @@ export default function Home({navigation}) {
                                 <Text style={{
                                     fontSize: 45,
                                     fontWeight: 'bold',
-                                    fontFamily: 'monospace',
+                                    fontFamily: appSettings.fontFamily,
                                     color: '#fff',
                                     bottom: 3
                                 }}>{currentScore}</Text>
@@ -129,7 +129,7 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: 'monospace',
+                                fontFamily: appSettings.fontFamily,
                                 color: '#ffbf42'
                             }}>{highScore ? highScore : 0}</Text>
                         </View>
@@ -144,7 +144,7 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: 'monospace',
+                                fontFamily: appSettings.fontFamily,
                                 color: '#2899c0'
                             }}>Play Again</Text>
                         </View>

@@ -94,7 +94,7 @@ export default function Game({navigation}) {
                         <Text style={{
                             fontSize: 12,
                             fontWeight: 'bold',
-                            fontFamily: 'monospace',
+                            fontFamily: appSettings.fontFamily,
                             color: '#fff'
                         }}>{score}</Text>
                     </View>

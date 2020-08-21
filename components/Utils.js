@@ -1,5 +1,5 @@
 import React from "react";
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, Platform} from 'react-native';
 
 export let highScoreKey = 'highScoreKey';
 export let currentScoreKey = 'currentScoreKey';
@@ -39,4 +39,8 @@ export const clone = (obj) => {
         if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
     }
     return copy;
+}
+
+export const appSettings = {
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace'
 }

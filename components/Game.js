@@ -4,7 +4,8 @@ import {StyleSheet, View, Dimensions, Text, SafeAreaView, ImageBackground, BackH
 import {Circle, randomizePosition} from './Circle'
 import frame from './../assets/icon/frame.png'
 import {Audio} from "expo-av";
-import {clone, paths} from "./Utils";
+import {clone} from "./Utils";
+import Constants from '../constants/Constants'
 
 export default function Game({navigation}) {
 
@@ -31,9 +32,9 @@ export default function Game({navigation}) {
     const silverSound = new Audio.Sound();
     const missedSound = new Audio.Sound();
     try {
-        goldSound.loadAsync(paths.goldSound).catch(e => console.log('error: ' + e));
-        silverSound.loadAsync(paths.silverSound).catch(e => console.log('error: ' + e));
-        missedSound.loadAsync(paths.missedSound).catch(e => console.log('error: ' + e));
+        goldSound.loadAsync(Constants.Paths.goldSound).catch(e => console.log('error: ' + e));
+        silverSound.loadAsync(Constants.Paths.silverSound).catch(e => console.log('error: ' + e));
+        missedSound.loadAsync(Constants.Paths.missedSound).catch(e => console.log('error: ' + e));
     } catch (error) {
         console.log(error);
     }
@@ -94,7 +95,7 @@ export default function Game({navigation}) {
                         <Text style={{
                             fontSize: 12,
                             fontWeight: 'bold',
-                            fontFamily: appSettings.fontFamily,
+                            fontFamily: Constants.AppSettings.fontFamily,
                             color: '#fff'
                         }}>{score}</Text>
                     </View>

@@ -1,16 +1,10 @@
 import React, {useState} from "react";
 import {TouchableOpacity, ImageBackground} from 'react-native';
 import * as Haptics from 'expo-haptics'
-import {
-    _retrieveData,
-    _storeData,
-    currentScoreKey,
-    highScoreKey,
-    missedCoinKey,
-    newAppKey
-} from "./Utils";
+import {_retrieveData, _storeData} from "./Utils";
 import goldCoin from '../assets/icon/gold.png'
 import silverCoin from '../assets/icon/silver.png'
+import Constants from "../constants/Constants";
 
 let timer;
 
@@ -130,15 +124,15 @@ const gameOver = (props, missedCoin) => {
         currentScore += props.vars.scorePerClick
     }
 
-    _retrieveData(highScoreKey).then(r => {
+    _retrieveData(Constants.HighScoreKey).then(r => {
         if (currentScore > r) {
-            _storeData(highScoreKey, currentScore).then(s => {
+            _storeData(Constants.HighScoreKey, currentScore).then(s => {
             })
         }
-        _storeData(currentScoreKey, currentScore).then(s => {
-            _storeData(newAppKey, "false").then(s => {
+        _storeData(Constants.CurrentScoreKey, currentScore).then(s => {
+            _storeData(Constants.NewAppKey, "false").then(s => {
             })
-            _storeData(missedCoinKey, missedCoin).then(s => {
+            _storeData(Constants.MissedCoinKey, missedCoin).then(s => {
             })
             props.vars.navigation.replace('Home')
         })

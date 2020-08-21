@@ -3,15 +3,8 @@ import React, {useState} from 'react';
 import {StyleSheet, View, SafeAreaView, Text, ImageBackground, TouchableOpacity} from 'react-native';
 import * as Haptics from 'expo-haptics'
 import Game from "./Game";
-import {
-    _retrieveData,
-    currentScoreKey,
-    highScoreKey,
-    missedCoinKey,
-    missedCoinMessage,
-    newAppKey, paths,
-    silverCoinMessage
-} from "./Utils";
+import Constants from '../constants/Constants'
+import {_retrieveData} from "./Utils";
 import scorecard from './../assets/icon/scorecard.png'
 import newGame from './../assets/icon/new_game.png'
 import play from './../assets/icon/play.png'
@@ -26,30 +19,30 @@ export default function Home({navigation}) {
     const [newApp, setNewApp] = useState('true');
     const [missedCoin, setMissedCoin] = useState('true');
 
-    _retrieveData(highScoreKey).then(r => {
+    _retrieveData(Constants.HighScoreKey).then(r => {
         setHighScore(r);
     })
 
-    _retrieveData(currentScoreKey).then(r => {
+    _retrieveData(Constants.CurrentScoreKey).then(r => {
         setCurrentScore(r);
     })
 
-    _retrieveData(newAppKey).then(r => {
+    _retrieveData(Constants.NewAppKey).then(r => {
         setNewApp(r);
     })
 
-    _retrieveData(missedCoinKey).then(r => {
+    _retrieveData(Constants.MissedCoinKey).then(r => {
         setMissedCoin(r);
     })
 
     const clickSound = new Audio.Sound();
     try {
-        clickSound.loadAsync(paths.clickSound).catch(e => console.log('error: ' + e));
+        clickSound.loadAsync(Constants.Paths.clickSound).catch(e => console.log('error: ' + e));
     } catch (error) {
         console.log(error);
     }
 
-    let gameOverMessage = missedCoin === 'true' ? missedCoinMessage : silverCoinMessage
+    let gameOverMessage = missedCoin === 'true' ? Constants.MissedCoinMessage : Constants.SilverCoinMessage
 
     if (newApp === 'true') {
         return (
@@ -65,7 +58,7 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: appSettings.fontFamily,
+                                fontFamily: Constants.AppSettings.fontFamily,
                                 color: '#ffbf42'
                             }}>{highScore ? highScore : 0}</Text>
                         </View>
@@ -80,7 +73,7 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: appSettings.fontFamily,
+                                fontFamily: Constants.AppSettings.fontFamily,
                                 color: '#699f4c'
                             }}>Play</Text>
                         </View>
@@ -97,26 +90,36 @@ export default function Home({navigation}) {
                 }}>
                     <View style={{flex: 3}}/>
                     <View style={{flex: 7, flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                        <View style={{width: 210, alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
+                        <View style={{
+                            width: 210,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'column'
+                        }}>
                             <Text style={{
                                 fontSize: 30,
                                 fontWeight: 'bold',
-                                fontFamily: appSettings.fontFamily,
+                                fontFamily: Constants.AppSettings.fontFamily,
                                 color: '#ffbf42'
                             }}>Game Over</Text>
                             <Text style={{
                                 fontSize: 12,
                                 fontWeight: 'bold',
-                                fontFamily: appSettings.fontFamily,
+                                fontFamily: Constants.AppSettings.fontFamily,
                                 color: '#fff'
                             }}>{gameOverMessage}</Text>
                         </View>
                         <View style={{width: 210, alignItems: 'center', justifyContent: 'center'}}>
-                            <ImageBackground source={frame} style={{width: 160, height: 65, alignItems: 'center', justifyContent: 'center'}}>
+                            <ImageBackground source={frame} style={{
+                                width: 160,
+                                height: 65,
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}>
                                 <Text style={{
                                     fontSize: 45,
                                     fontWeight: 'bold',
-                                    fontFamily: appSettings.fontFamily,
+                                    fontFamily: Constants.AppSettings.fontFamily,
                                     color: '#fff',
                                     bottom: 3
                                 }}>{currentScore}</Text>
@@ -129,7 +132,7 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: appSettings.fontFamily,
+                                fontFamily: Constants.AppSettings.fontFamily,
                                 color: '#ffbf42'
                             }}>{highScore ? highScore : 0}</Text>
                         </View>
@@ -144,7 +147,7 @@ export default function Home({navigation}) {
                             <Text style={{
                                 fontSize: 20,
                                 fontWeight: 'bold',
-                                fontFamily: appSettings.fontFamily,
+                                fontFamily: Constants.AppSettings.fontFamily,
                                 color: '#2899c0'
                             }}>Play Again</Text>
                         </View>
